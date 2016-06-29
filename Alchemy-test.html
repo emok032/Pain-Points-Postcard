@@ -7,51 +7,99 @@
 	<title></title>
 </head>
 <body>
-	<h1>WILL IT WORK??</h1>
+	<div class="container-fluid">
+		<br>
+		<br>
+		<br>
+
+		<div class="row">
+			<div class="col-xs-4"></div>
+
+			<div class="col-xs-8">
+				<form class="form-inline">
+	  				<div class="form-group text-center">
+			    		<label class="sr-only" for="URL"></label>
+			    		<input type="text" class="form-control" id="exampleInputName2" placeholder="URL">
+	  				</div>
+					<button type="button" class="btn btn-primary">Submit</button>
+				</form>
+
+				<h3>Keywords:</h3>
+				<div id="outputDiv"></div>
+
+			</div>
+			<div class="col-xs-4"></div>
+
+		</div>
+		
+	</div>
 
 	<script type="text/javascript">
-/*Notes
-	Send each bubble's text in object form - maybe a standard callback function?
-	Should the selected bubbles be marked for inclusion in the postcard, or should we create a new postcard object?
-	Send each bubble's text for analysis, not the entire url's text.
+		/*Notes
+			Send each bubble's text in object form - maybe a standard callback function?
+			Should the selected bubbles be marked for inclusion in the postcard, or should we create a new postcard object?
+			Send each bubble's text for analysis, not the entire url's text.
 
-*/
-		
-/* Holding tank
-		{
-  "credentials": {
-    "url": "https://gateway-a.watsonplatform.net/calls",
-    "note": "It may take up to 5 minutes for this key to become active",
-    "apikey": "4947c53fd9c0d11744fe266fc5b7f3273e5e33ab"
-  }
-}
+		*/
+				
+		/* Holding tank
+					{
+			  "credentials": {
+			    "url": "https://gateway-a.watsonplatform.net/calls",
+			    "note": "It may take up to 5 minutes for this key to become active",
+			    "apikey": "4947c53fd9c0d11744fe266fc5b7f3273e5e33ab"
+			  }
+			}
 
-curl "https://gateway-a.watsonplatform.net/calls/url/URLGetAuthors?apikey=API_KEY&url=www.ibm.com"
-
-
-curl -X POST \
--d "apikey=4947c53fd9c0d11744fe266fc5b7f3273e5e33ab" \
--d "outputMode=json" \
--d "url=http://www.twitter.com/ibmwatson" \
-"https://gateway-a.watsonplatform.net/calls/url/URLGetRankedKeywords"
-
-*/
-$("btn")
+		curl "https://gateway-a.watsonplatform.net/calls/url/URLGetAuthors?apikey=API_KEY&url=www.ibm.com"
 
 
-var queryURL = "https://gateway-a.watsonplatform.net/calls/url/URLGetRankedKeywords"
+		curl -X POST \
+			-d "apikey=4947c53fd9c0d11744fe266fc5b7f3273e5e33ab" \
+			-d "outputMode=json" \
+			-d "url=http://www.twitter.com/ibmwatson" \
+			"https://gateway-a.watsonplatform.net/calls/url/URLGetRankedKeywords"
 
-$.ajax({
-	url: queryURL,
-	method: 'POST',
-	data: {
-		apikey: "4947c53fd9c0d11744fe266fc5b7f3273e5e33ab",
-		outputMode: "json",
-		url: "http://www.twitter.com/ibmwatson"
-	}
-}).done(function(response){
-	console.log(response)
-});
+		*/
+		var inputURL;
+
+
+		$("button").on("click", function(){
+			inputURL = $("input").val();
+
+			var queryURL = "https://gateway-a.watsonplatform.net/calls/url/URLGetRankedKeywords"
+
+			$.ajax({
+				url: queryURL,
+				method: 'POST',
+				data: {
+					apikey: "4947c53fd9c0d11744fe266fc5b7f3273e5e33ab",
+					outputMode: "json",
+					url: inputURL
+				}
+			}).done(function(response){
+				console.log(response);
+				var reply = response.keywords;
+				$("#outputDiv").empty();
+
+				for(var i = 0; i < 5; i++){
+					var newKey = "keyword: " + reply[i].text;
+					var newRel = "relevance: " + reply[i].relevance;
+
+					var addDiv = $("<h4>").text(i + ": {");
+					addDiv.append($("<br>"));
+					addDiv.append($("<p>").text(newKey));
+					addDiv.append($("<p>").text(newRel));
+					addDiv.append($("<p>").text("}"));
+
+					$("#outputDiv").append(addDiv);
+					$("#outputDiv").append("<br>");
+				}
+			});
+
+			$("form-control").val("URL");//Shouldn't this clear the form??
+		})
+
 	</script>
 
 </body>
