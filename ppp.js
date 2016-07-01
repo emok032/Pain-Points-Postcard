@@ -2,8 +2,6 @@
 var inputText;
 var inputStudent;
 
-
-
 Bubble object constructor
 function newBubble(nbKeyword, nbText, nbStudent, nbTime){
     this.nbKeyword = keyword,
@@ -11,7 +9,6 @@ function newBubble(nbKeyword, nbText, nbStudent, nbTime){
     this.nbStudent = student,
     this.nbTime = time
 }
-
 
 //New Pain-Point Bubble
 function createBubbleDiv(keyword, text, student){
@@ -31,7 +28,7 @@ function createBubbleDiv(keyword, text, student){
     $("#existingBubblesDiv").append(bubbleDiv);
 
     //Create a new object for the bubble
-    newBubble(keyword, text, student, /*moment.js time function?*/)
+    var bubbleObj = newBubble(keyword, text, student, /*moment.js time function?*/)
 }
 
 //Basic NLP API logic
