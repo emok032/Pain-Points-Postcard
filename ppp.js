@@ -1,51 +1,15 @@
 //Global Variables
-var inputText;
-var inputStudent;
 
-//Constructor for new bubble objects
-Bubble object constructor
-function newBubble(nbKeyword, nbText, nbStudent, nbTime){
-    this.nbKeyword = keyword,
-    this.nbText = text,
-    this.nbStudent = student,
-    this.nbTime = time
+//Bubble object constructor
+function bubbleObj(nbStudent, nbText, nbKeyword, nbTime){
+    this.nbStudent = nbStudent,
+    this.nbText = nbText,
+    this.nbKeyword = nbKeyword,
+    this.nbTime = nbTime
 }
 
-//Creats a new Pain-Point Bubble
-function createBubbleDiv(keyword, text, student){
-    //Variables to create the new bubble Div
-    var bubbleDiv = $("<div>").attr({class: "bubble"});
-    var keyword = $("<h3>").text(keyword);
-    var p = $("<p>").text(text);
-    if(student){
-        // var bMod = $("<b>");
-        var s = $("<p><b>").text(student);
-    }
-
-    //Append everything to the screen
-    bubbleDiv.append(keyword);
-    bubbleDiv.append(p);
-    bubbleDiv.append(s);
-    $("#existingBubblesDiv").append(bubbleDiv);
-
-    //Create a new object for the bubble
-    var bubbleObj = newBubble(keyword, text, student, /*moment.js time function?*/)
-}
-
-//Callback function for AJAx request. 
-function callback(response){
-    console.log(response);
-    var reply = response.concepts[0].text;//If we want more than one Keyword, we can make this a loop. 
-    createBubbleDiv(reply, inputText, inputStudent);
-}
-
-//Sentiment analysis
-
-$(".btn-success").on("click", function(){
-    inputText = $("textarea").val();
-    inputStudent = $("#userName").val();
-
-    var queryURL = "https://gateway-a.watsonplatform.net/calls/text/TextGetRankedConcepts"
+function bubbleFactory(inputText, inputStudent){
+    var queryURL = "https://gateway-a.watsonplatform.net/calls/text/TextGetRankedConcepts";
 
     $.ajax({
         url: queryURL,
@@ -55,7 +19,44 @@ $(".btn-success").on("click", function(){
             outputMode: "json",
             text: inputText
         }
-    }).done(callback);
+    }).done(function(response){
+        console.log(response);
+        var reply = response.concepts;
+        var keyArray = [];//This will be added to this bubble's Firebase object
 
-    $(".form-control").val("");//Shouldn't this clear the form??
-})
+        //Create a new div for our new bubble, and append the student's name and inputted text
+        var bubbleDiv = $("<div>").attr({class: "bubble"});
+        var s;//Either we add the student's submitted name/username, or we add "Anonymous"
+            if(inputStudent){s = $("<h3>").text(inputStudent + ":")};
+            else {s = $("<h3>").text("Anonyous: ")};
+        var t = $("<p>").text(inputText);//Turn the submitted text into a new paragraph element
+
+        bubbleDiv.append(s);//Add the student name and text to the new bubbleDiv
+        bubbleDiv.append(t);
+        
+        //Create link-enabled keyword hashtags from the Alchemy API
+        var limit;
+        var responseLength = reply.length();
+        if(responseLength > 3){limit = 2};//Use up to the first three keywords in the response
+        else{limit = responseLength};
+
+        //Turn each keyword into a clickable link (up to a max of three keywords), and append each one to bubbleDiv
+        for(var i = 0; i <= limit; i++){
+            //Create a new link out of each keyword
+            var k = "#" + reply[i].text;
+            var link = $("<a>").attr({"href": "#"});
+            link.text(keyword);
+
+            bubbleDiv.append(link);//Append each keyword link to bubbleDiv
+
+            keyArray.push(k)//Push each keyword to keyArray
+        }
+
+        $("#existingBubblesDiv").append(bubbleDiv); //Append the new bubbleDiv to the bubble area on the main page
+
+        //Create a new object for each bubble, to be sent to Firebase
+        var fireBaseObj  = new bubbleObj(s, t, keyArray)//Should we pass a moment.js object as an argument for nbTime?
+        console.log(fireBaseObj);
+    });
+}
+
