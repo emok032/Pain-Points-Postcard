@@ -2,6 +2,7 @@
 var inputText;
 var inputStudent;
 
+//Constructor for new bubble objects
 Bubble object constructor
 function newBubble(nbKeyword, nbText, nbStudent, nbTime){
     this.nbKeyword = keyword,
@@ -10,7 +11,7 @@ function newBubble(nbKeyword, nbText, nbStudent, nbTime){
     this.nbTime = time
 }
 
-//New Pain-Point Bubble
+//Creats a new Pain-Point Bubble
 function createBubbleDiv(keyword, text, student){
     //Variables to create the new bubble Div
     var bubbleDiv = $("<div>").attr({class: "bubble"});
@@ -28,38 +29,33 @@ function createBubbleDiv(keyword, text, student){
     $("#existingBubblesDiv").append(bubbleDiv);
 
     //Create a new object for the bubble
-    newBubble(keyword, text, student, /*moment.js time function?*/)
+    var bubbleObj = newBubble(keyword, text, student, /*moment.js time function?*/)
 }
 
-//Basic NLP API logic
-// var inputURL;
-
+//Callback function for AJAx request. 
 function callback(response){
     console.log(response);
-    var reply = response.keywords[0].text;
+    var reply = response.concepts[0].text;//If we want more than one Keyword, we can make this a loop. 
     createBubbleDiv(reply, inputText, inputStudent);
 }
 
-//Keyword analysis
-$(".btn").on("click", function(){
-            inputText = $("textarea").val();
-            inputStudent = $("#userName").val();
-            // inputText = encodeURI(inputText); 
-            console.log(inputText);
+//Sentiment analysis
 
-            var queryURL = "https://gateway-a.watsonplatform.net/calls/text/TextGetRankedKeywords"
+$(".btn-success").on("click", function(){
+    inputText = $("textarea").val();
+    inputStudent = $("#userName").val();
 
-            $.ajax({
-                url: queryURL,
-                method: 'POST',
-                data: {
-                    apikey: "4947c53fd9c0d11744fe266fc5b7f3273e5e33ab",
-                    outputMode: "json",
-                    text: inputText
-                }
-            }).done(callback);
+    var queryURL = "https://gateway-a.watsonplatform.net/calls/text/TextGetRankedConcepts"
 
-            $(".form-control").val("");//Shouldn't this clear the form??
-        })
+    $.ajax({
+        url: queryURL,
+        method: 'POST',
+        data: {
+            apikey: "4947c53fd9c0d11744fe266fc5b7f3273e5e33ab",
+            outputMode: "json",
+            text: inputText
+        }
+    }).done(callback);
 
-//
+    $(".form-control").val("");//Shouldn't this clear the form??
+})
