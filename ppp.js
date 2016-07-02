@@ -8,7 +8,7 @@ function bubbleObj(nbStudent, nbText, nbKeyword, nbTime){
     this.nbTime = nbTime
 }
 
-function bubbleFactory(inputText, inputStudent, insertDiv, createObj){
+function bubbleFactory(inputText, inputStudent){
     var queryURL = "https://gateway-a.watsonplatform.net/calls/text/TextGetRankedConcepts";
 
     $.ajax({
@@ -53,15 +53,11 @@ function bubbleFactory(inputText, inputStudent, insertDiv, createObj){
             keyArray.push(k)//Push each keyword to keyArray
         }
 
-        $(insertDiv).append(bubbleDiv); //Append the new bubbleDiv to the bubble area on the main page
+        $("#existingBubblesDiv").append(bubbleDiv); //Append the new bubbleDiv to the bubble area on the main page
 
         //Create a new object for each bubble, to be sent to Firebase
-        if (createObj){
-            var fireBaseObj = new bubbleObj(s, t, keyArray)//Should we pass a moment.js object as an argument for nbTime?
-            console.log(fireBaseObj); 
-            //Firebase insertion code
-        }
-
+        var fireBaseObj = new bubbleObj(s, t, keyArray)//Should we pass a moment.js object as an argument for nbTime?
+        console.log(fireBaseObj);
     });
 }
 
@@ -70,7 +66,7 @@ $(".btn").on("click", function(){
     inputStudent = $("#userName").val();
     console.log(inputText);
 
-    bubbleFactory(inputText, inputStudent, "#existingBubblesDiv", true);
+    bubbleFactory(inputText, inputStudent);
 
     $(".form-control").val("");//Shouldn't this clear the form??
 })
