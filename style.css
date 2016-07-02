@@ -1,3 +1,81 @@
-.bubble{
-	max-width: 30%;
+body{font-family: 'Rokkitt', serif; font-size:17px; background:#e7e2cf;}
+img{border:none;}
+
+
+#titleDiv {
+  padding-top:5px;
+  padding-bottom:0px;
+  border-width:3px;
+  background:url(images/bg4.jpg) 
 }
+/*Welcome to Pain Poitns Postcards*/
+      #maintTitle {
+        font-family:'Rokkitt', font-color:#000000;
+      }
+
+#bubblesDiv {
+	position:relative;
+	background:url(corkboard.jpg);
+}
+
+
+/*Voting Section*/
+#bubbleJumbo {
+	font-family: 'Rokkitt';
+	font:#000000;
+	background:#e7e2cf;
+	background:url(images/bg3.jpg);
+
+}
+/*bubbleResults divs for each bubbles ('enjoy-css') divs here*/
+    .bubbleResults {
+      margin-top: 50px;
+      position:relative;
+      float:top;
+      padding: 100px;
+    }
+        /*Each bubbles' styling*/
+        .enjoy-css {
+          -webkit-box-sizing: content-box;
+          -moz-box-sizing: content-box;
+          box-sizing: content-box;
+          width: 400px;
+          height: 300px;
+          margin: 0 0 0 27px;
+          border: 2px solid rgba(219,166,19,0.5);
+          -webkit-border-radius: 50%;
+          border-radius: 50%;
+          font: normal 16px/1 "Times New Roman", Times, serif;
+          color: rgba(255,255,255,1);
+          text-align: center;
+          -o-text-overflow: ellipsis;
+          text-overflow: ellipsis;
+          background: #ffeaa0;
+          -webkit-box-shadow: 0 0 2px 2px rgba(219,166,19,0.5) , 0 0 6px 2px rgba(244,178,12,0.5) ;
+          box-shadow: 0 0 2px 2px rgba(219,166,19,0.5) , 0 0 6px 2px rgba(244,178,12,0.5) ;
+          -webkit-transition: margin 320ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+          -moz-transition: margin 320ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+          -o-transition: margin 320ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+          transition: margin 320ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+          margin-bottom: 50px;
+          position:relative;
+        }
+
+        .enjoy-css:hover {
+          -webkit-box-shadow: 3px 5px 15px 2px rgba(0,0,0,0.4) , 0 0 2px 2px rgba(219,166,19,0.5) ;
+          box-shadow: 3px 5px 15px 2px rgba(0,0,0,0.4) , 0 0 2px 2px rgba(219,166,19,0.5) ;
+        }
+
+/*Add a paint-point*/
+#addBubbleJumbo {
+	position:absolute;
+	float:bottom;
+	width: 1100px;
+  margin-top: 50px;
+  background:url(images/bg3.jpg) 
+}
+
+
+
+
+

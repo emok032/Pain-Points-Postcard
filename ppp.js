@@ -2,33 +2,24 @@
 var inputText;
 var inputStudent;
 
-Bubble object constructor
-function newBubble(nbKeyword, nbText, nbStudent, nbTime){
-    this.nbKeyword = keyword,
-    this.nbText = text,
-    this.nbStudent = student,
-    this.nbTime = time
-}
+
+
+//Bubble object constructor
+// function newBubble(keyword, text, student)
+
 
 //New Pain-Point Bubble
-function createBubbleDiv(keyword, text, student){
-    //Variables to create the new bubble Div
+function createBubble(keyword, text, student){
     var bubbleDiv = $("<div>").attr({class: "bubble"});
     var keyword = $("<h3>").text(keyword);
     var p = $("<p>").text(text);
     if(student){
-        // var bMod = $("<b>");
-        var s = $("<p><b>").text(student);
+        var bMod = $("<b>");
+        var s = $("<p>").append(bMod).text(student);
     }
-
-    //Append everything to the screen
     bubbleDiv.append(keyword);
     bubbleDiv.append(p);
-    bubbleDiv.append(s);
-    $("#existingBubblesDiv").append(bubbleDiv);
-
-    //Create a new object for the bubble
-    var bubbleObj = newBubble(keyword, text, student, /*moment.js time function?*/)
+    $("#existingBubblesDiv").append(bubbleDiv)
 }
 
 //Basic NLP API logic
@@ -37,10 +28,9 @@ function createBubbleDiv(keyword, text, student){
 function callback(response){
     console.log(response);
     var reply = response.keywords[0].text;
-    createBubbleDiv(reply, inputText, inputStudent);
+    createBubble(reply, inputText, inputStudent);
 }
 
-//Keyword analysis
 $(".btn").on("click", function(){
             inputText = $("textarea").val();
             inputStudent = $("#userName").val();
@@ -59,7 +49,5 @@ $(".btn").on("click", function(){
                 }
             }).done(callback);
 
-            $(".form-control").val("");//Shouldn't this clear the form??
+            $("form-control").val("URL");//Shouldn't this clear the form??
         })
-
-//
