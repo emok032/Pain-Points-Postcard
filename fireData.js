@@ -1,11 +1,12 @@
-// Initialize Firebase
+  // Initialize Firebase
   var config = {
     apiKey: "AIzaSyAHKU2KgIJFJxFQSgU4Sm_c2KiBPFb8H7A",
     authDomain: "pain-points-postcard.firebaseapp.com",
     databaseURL: "https://pain-points-postcard.firebaseio.com",
-    storageBucket: "",
+    storageBucket: "pain-points-postcard.appspot.com",
   };
   firebase.initializeApp(config);
+
 
   var database = firebase.database(); 
 
@@ -19,17 +20,7 @@
                 console.log(queryURL);
                 console.log(response);
 
-                
-
-
-
-
-
-
-
-
-
-
+              
 
 
             });
