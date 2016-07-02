@@ -27,8 +27,8 @@ function bubbleFactory(inputText, inputStudent){
         //Create a new div for our new bubble, and append the student's name and inputted text
         var bubbleDiv = $("<div>").attr({class: "bubble"});
         var s;//Either we add the student's submitted name/username, or we add "Anonymous"
-            if(inputStudent){s = $("<h3>").text(inputStudent + ":")};
-            else {s = $("<h3>").text("Anonyous: ")};
+            if(inputStudent){s = $("<h3>").text(inputStudent + ":")}
+            else {s = $("<h3>").text("Anonymous: ")};
         var t = $("<p>").text(inputText);//Turn the submitted text into a new paragraph element
 
         bubbleDiv.append(s);//Add the student name and text to the new bubbleDiv
@@ -36,16 +36,17 @@ function bubbleFactory(inputText, inputStudent){
         
         //Create link-enabled keyword hashtags from the Alchemy API
         var limit;
-        var responseLength = reply.length();
-        if(responseLength > 3){limit = 2};//Use up to the first three keywords in the response
-        else{limit = responseLength};
+        var responseLength = reply.length;
+        console.log(responseLength);
+        if(responseLength > 3){limit = 2}//Use up to the first three keywords in the response
+        else{limit = responseLength-1};
 
         //Turn each keyword into a clickable link (up to a max of three keywords), and append each one to bubbleDiv
         for(var i = 0; i <= limit; i++){
             //Create a new link out of each keyword
-            var k = "#" + reply[i].text;
+            var k = " #" + reply[i].text + " ";
             var link = $("<a>").attr({"href": "#"});
-            link.text(keyword);
+            link.text(k);
 
             bubbleDiv.append(link);//Append each keyword link to bubbleDiv
 
@@ -60,6 +61,13 @@ function bubbleFactory(inputText, inputStudent){
     });
 }
 
+$(".btn").on("click", function(){
+    inputText = $("textarea").val();
+    inputStudent = $("#userName").val();
+    console.log(inputText);
 
+    bubbleFactory(inputText, inputStudent);
 
+    $(".form-control").val("");//Shouldn't this clear the form??
+})
 
