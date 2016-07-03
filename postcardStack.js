@@ -26,11 +26,10 @@ function init(){
     x:0
   })
 
-  cardDataArray = [];
+  cardDataArray = ["(Postcard here)"];
   cardElementArray = [];
 
   createCards();
-
 
 //   Draggable.create(nullObject, {
 //     type:'x',
@@ -51,10 +50,12 @@ function createCards(){
     //cardElement = cardSymbol.getSymbolElement();
     cardElement = document.createElement('div');
     cardPost = document.createElement('div');
-    cardTitle = document.createElement('div');
+    cardTitle = document.createElement('div'); // (Postcard) SUBJECT LINE: Need element name for Alchemy keywords
+        // Change to .getElementByID
     cardTitle.className = 'card-title';
     cardPanel = document.createElement('div');
-    cardBodyText = document.createElement('div');
+    cardBodyText = document.createElement('div'); // (Postcard) PAIN POINT Summary: Need element name for top pain point(s) text
+        // Change to .getElementByID
     cardShareText = document.createElement('div');
     cardActionText = document.createElement('div');
     // cardPost.setAttribute('src', cardDataArray[i].imageUrl);
@@ -64,6 +65,7 @@ function createCards(){
     //   alpha:0.8
     // })
 
+// Insert Postcard keywords here
     cardTitle.innerHTML = cardDataArray[i].cardTitle;
     cardBodyText.innerHTML = cardDataArray[i].cardBody
     cardShareText.innerHTML = 'SHARE';
