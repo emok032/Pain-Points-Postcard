@@ -1,3 +1,6 @@
+// The goal of this script is to stagger the Postcards as they are generated over time.
+// The user (instructor) will have the ability to view past cards by swiping the most recent (top of stack) to the oldest (bottom of stack)
+
 
 function init(){
 
