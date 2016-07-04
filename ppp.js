@@ -64,14 +64,51 @@ function newBubble(inputStudent, inputText){
         if(!inputStudent){inputStudent = "Anonymous"}
 
         //Creates new object from student-generated info and AJAX call
-        var fireBaseObj = new bubbleObj(inputStudent, inputText, keyArray /* add moment.js timestamp*/);
+        var fireBaseObj = new bubbleObj(inputStudent, inputText, keyArray, " " /* add moment.js timestamp*/);
         console.log(fireBaseObj);
 
+
+        /******************************************************************/
         //Send object to firebase here
 
-        renderBubble(fireBaseObj, "#existingBubblesDiv")
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAHKU2KgIJFJxFQSgU4Sm_c2KiBPFb8H7A",
+    authDomain: "pain-points-postcard.firebaseapp.com",
+    databaseURL: "https://pain-points-postcard.firebaseio.com",
+    storageBucket: "pain-points-postcard.appspot.com",
+  };
+  firebase.initializeApp(config);
+
+
+  var database = firebase.database(); 
+
+    database.ref().push(fireBaseObj);
+
+    
+database.ref().on('child_added', function(childSnapshot, prevChildKey) {
+    
+    var newBubble = {
+    bubbleName: childSnapshot.val().nbStudent,
+    bubbleText: childSnapshot.val().nbText,
+    bubbleKeyword: childSnapshot.val().nbKeyword,
+    bubbleTime: childSnapshot.val().nbTime
+}
+
+});
+
+
+
+        
+
+
+
+        renderBubble(newBubble, "#existingBubblesDiv")
+
     });
 }
+
+/***************************************************************/
 
 $(".btn").on("click", function(){
     inputText = $("textarea").val();
@@ -82,4 +119,5 @@ $(".btn").on("click", function(){
 
     $(".form-control").val("");//Shouldn't this clear the form??
 })
+
 
