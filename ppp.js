@@ -62,6 +62,7 @@ function newBubble(inputStudent, inputText){
 
         //Creates new object from student-generated info and AJAX call
         var fireBaseObj = new bubbleObj(inputStudent, inputText, keyArray /* add moment.js timestamp*/);
+        console.log(fireBaseObj);
 
         //Send object to firebase here
 
