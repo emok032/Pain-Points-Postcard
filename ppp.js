@@ -60,6 +60,9 @@ function newBubble(inputStudent, inputText){
             keyArray.push("#" + reply[i].text )//Push each keyword to keyArray
         }
 
+        //If the student doesn't provide a name, use "Anonumous"
+        if(!inputStudent){inputStudent = "Anonymous"}
+
         //Creates new object from student-generated info and AJAX call
         var fireBaseObj = new bubbleObj(inputStudent, inputText, keyArray /* add moment.js timestamp*/);
         console.log(fireBaseObj);
