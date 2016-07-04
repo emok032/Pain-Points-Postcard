@@ -10,7 +10,7 @@ function bubbleObj(nbStudent, nbText, nbKeyword, nbTime){
 
 function renderBubble(inputObj, insertDiv){
     //Create a new div for our new bubble, and variables for the student's name and pain point text
-    var bubbleDiv = $("<div>").attr({class: ".enjoy-CSS"});
+    var bubbleDiv = $("<div>").attr({class: "enjoy-CSS"});
     var s = $("<h3>").text(inputObj.nbStudent + ": ")
     var t = $("<p>").text(inputObj.nbText)
 
