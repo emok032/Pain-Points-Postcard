@@ -8,7 +8,34 @@ function bubbleObj(nbStudent, nbText, nbKeyword, nbTime){
     this.nbTime = nbTime
 }
 
-function bubbleFactory(inputText, inputStudent){
+function renderBubble(inputObj, insertDiv){
+    //Create a new div for our new bubble, and variables for the student's name and pain point text
+    var bubbleDiv = $("<div>").attr({class: ".enjoy-CSS"});
+    var s = $("<h3>").text(inputObj.nbStudent + ": ")
+    var t = $("<p>").text(inputObj.nbText)
+
+    //Add the student name and text to the new bubbleDiv
+    bubbleDiv.append(s);
+    bubbleDiv.append(t);
+
+    //Turn each keyword into a clickable link (up to a max of three keywords), and append each one to bubbleDiv
+    var keyArray = inputObj.nbKeyword
+    for(var i = 0; i < keyArray.length; i++){
+
+        //Create a new link out of each keyword
+        var k = keyArray[i] + " ";
+        var link = $("<a>").attr({"href": "#"});
+        link.text(k);
+
+        //Append each keyword link to bubbleDiv
+        bubbleDiv.append(link);
+
+        //Append the new bubbleDiv to the bubble area on the main page
+        $(insertDiv).append(bubbleDiv); 
+    }
+}
+
+function newBubble(inputStudent, inputText){
     var queryURL = "https://gateway-a.watsonplatform.net/calls/text/TextGetRankedConcepts";
 
     $.ajax({
@@ -22,51 +49,32 @@ function bubbleFactory(inputText, inputStudent){
     }).done(function(response){
         console.log(response);
         var reply = response.concepts;
-        var keyArray = [];//This will be added to this bubble's Firebase object
 
-        //Create a new div for our new bubble, and append the student's name and inputted text
-        var bubbleDiv = $("<div>").attr({class: "bubble"});
-        var s;//Either we add the student's submitted name/username, or we add "Anonymous"
-            if(inputStudent){s = $("<h3>").text(inputStudent + ":")}
-            else {s = $("<h3>").text("Anonymous: ")};
-        var t = $("<p>").text(inputText);//Turn the submitted text into a new paragraph element
-
-        bubbleDiv.append(s);//Add the student name and text to the new bubbleDiv
-        bubbleDiv.append(t);
-        
-        //Create link-enabled keyword hashtags from the Alchemy API
+        //Add keywords from AJAX call
+        var keyArray = [];
         var limit;
-        var responseLength = reply.length;
-        console.log(responseLength);
-        if(responseLength > 3){limit = 2}//Use up to the first three keywords in the response
-        else{limit = responseLength-1};
-
-        //Turn each keyword into a clickable link (up to a max of three keywords), and append each one to bubbleDiv
+        console.log(reply.length);
+        if(reply.length > 3){limit = 2}//Use up to the first three keywords in the response
+        else{limit = reply.length-1};
         for(var i = 0; i <= limit; i++){
-            //Create a new link out of each keyword
-            var k = " #" + reply[i].text + " ";
-            var link = $("<a>").attr({"href": "#"});
-            link.text(k);
-
-            bubbleDiv.append(link);//Append each keyword link to bubbleDiv
-
-            keyArray.push(k)//Push each keyword to keyArray
+            keyArray.push("#" + reply[i].text )//Push each keyword to keyArray
         }
 
-        $("#existingBubblesDiv").append(bubbleDiv); //Append the new bubbleDiv to the bubble area on the main page
+        //Creates new object from student-generated info and AJAX call
+        var fireBaseObj = new bubbleObj(inputStudent, inputText, keyArray /* add moment.js timestamp*/);
 
-        //Create a new object for each bubble, to be sent to Firebase
-        var fireBaseObj = new bubbleObj(s, t, keyArray)//Should we pass a moment.js object as an argument for nbTime?
-        console.log(fireBaseObj);
+        //Send object to firebase here
+
+        renderBubble(fireBaseObj, "#existingBubblesDiv")
     });
 }
 
 $(".btn").on("click", function(){
     inputText = $("textarea").val();
     inputStudent = $("#userName").val();
-    console.log(inputText);
+    console.log("inputText: " + inputText);
 
-    bubbleFactory(inputText, inputStudent);
+    newBubble(inputStudent, inputText);
 
     $(".form-control").val("");//Shouldn't this clear the form??
 })
