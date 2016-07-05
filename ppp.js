@@ -10,6 +10,7 @@
 
 //Global Variables
 var bubbleCompare = [];
+var voteCompare = [];
 
 //Bubble object constructor
 function bubbleObj(nbStudent, nbText, nbKeyword, nbTime, nbVotes){
@@ -21,9 +22,8 @@ function bubbleObj(nbStudent, nbText, nbKeyword, nbTime, nbVotes){
 }
 
 function renderPostcard(inputObj1, inputObj2){
-
-    console.log("inputObj1: " + inputObj1);
-    console.log("inputObj2: " + inputObj2);
+    console.log(inputObj1);
+    console.log(inputObj2);
 
     var postDiv = $("<div>").attr({class: "postDiv"});//New postcard div
 
@@ -45,7 +45,7 @@ function renderPostcard(inputObj1, inputObj2){
     //Div to hold the first pain point\\
     var pp1 = $("<div>").attr({class: "col-xs-6 pp1"});
 
-    var title = $("<h3>").text("From " + inputObj1.nbStudent + ", with " + inputObj1.nbVotes + ":")
+    var title = $("<h3>").text("From " + inputObj1.nbStudent + ", with " + inputObj1.nbVotes + " votes:")
     var body = $("<p>").text(inputObj1.nbText)
     var time = $("<h5>").text(inputObj1.nbTime);
 
@@ -57,7 +57,7 @@ function renderPostcard(inputObj1, inputObj2){
     //Div to hold the second pain point
     var pp2 = $("<div>").attr({class: "col-xs-6 pp1"});
 
-    var title = $("<h3>").text("From " + inputObj2.nbStudent + ", with " + inputObj2.nbVotes + ":")
+    var title = $("<h3>").text("From " + inputObj2.nbStudent + ", with " + inputObj2.nbVotes + " votes:")
     var body = $("<p>").text(inputObj2.nbText)
     var time = $("<h5>").text(inputObj2.nbTime);
 
@@ -198,26 +198,58 @@ database.ref().on("child_changed", function(snapshot){
 })
 
 //Listener to render the Postcard
+// database.ref().on("value", function(snapshot){
+
+//     snapshot.forEach(function(childSnapshot){
+//         var childObj = childSnapshot.val()
+//         var childKey = childSnapshot.key;
+//         var childVotes = childObj.nbVotes;
+//         console.log("childObj " + childKey + ": " + childObj);
+
+//         for (var i = 0; i < 2; i++){
+//             if (!bubbleCompare[i]){
+//                 bubbleCompare[i] = childObj;
+//                 break;
+//             }
+//             else if(childVotes > bubbleCompare[i].nbVotes){
+//                 bubbleCompare[i] = childObj;
+//                 break;
+//             }
+//             else{continue}
+//         }
+//     })
+//     renderPostcard(bubbleCompare[0], bubbleCompare[1]);
+// })
+
 database.ref().on("value", function(snapshot){
+    bubbleCompare = [];
+    voteCompare = [];
 
     snapshot.forEach(function(childSnapshot){
         var childObj = childSnapshot.val()
-        var childKey = childSnapshot.key;
         var childVotes = childObj.nbVotes;
-        console.log()
 
-        for (var i = 0; i < 2; i++){
-            if (!bubbleCompare[i]){
-                bubbleCompare[i] = childObj;
-                break;
-            }
-            else if(childVotes > bubbleCompare[i].nbVotes){
-                bubbleCompare[i] = childObj;
-                break;
-            }
-            else{continue}
-        }
+        bubbleCompare.push(childObj);
+        voteCompare.push(childVotes);
+
     })
-    renderPostcard(bubbleCompare[0], bubbleCompare[1]);
+
+    console.log("bubbleCompare: " + bubbleCompare);
+    console.log("voteCompare: " + voteCompare);
+
+    var max1 = Math.max(...voteCompare);
+    var max1Index = voteCompare.indexOf(max1);
+    voteCompare.splice(max1Index, 1);
+    var inputObj1 = bubbleCompare.splice(max1Index, 1)[0];
+
+    var max2 = Math.max(...voteCompare);
+    var max2Index = voteCompare.indexOf(max2);
+    voteCompare.splice(max2Index, 1);
+    var inputObj2 = bubbleCompare.splice(max2Index, 1)[0];
+
+    console.log(inputObj1);
+    console.log(inputObj2);
+
+    renderPostcard(inputObj1, inputObj2);
 })
 
