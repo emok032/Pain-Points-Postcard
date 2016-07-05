@@ -2,7 +2,6 @@
 var likeCounter;
 var likeDisplay;
 var bubbleCountArray=[];
-console.log(likeCounter);
 //Bubble object constructor
 function bubbleObj(nbStudent, nbText, nbKeyword, nbTime){
     this.nbStudent = nbStudent,
@@ -13,7 +12,7 @@ function bubbleObj(nbStudent, nbText, nbKeyword, nbTime){
 
 function renderBubble(inputObj, insertDiv){
     //Create a new div for our new bubble, and variables for the student's name and pain point text
-    var bubbleDiv = $("<div>").attr({class: ".old-tv-screen"});
+    var bubbleDiv = $("<div>").attr({class: "old-tv-screen"});
     var s = $("<h3>").text(inputObj.nbStudent + ": ");
     var t = $("<p>").text(inputObj.nbText);
     var bubbleText = $("<div>").attr({class: "bubbleText"});
