@@ -1,3 +1,13 @@
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAHKU2KgIJFJxFQSgU4Sm_c2KiBPFb8H7A",
+    authDomain: "pain-points-postcard.firebaseapp.com",
+    databaseURL: "https://pain-points-postcard.firebaseio.com",
+    storageBucket: "pain-points-postcard.appspot.com",
+  };
+  firebase.initializeApp(config);
+  var database = firebase.database(); 
+
 //Global Variables
 
 //Bubble object constructor
@@ -67,48 +77,18 @@ function newBubble(inputStudent, inputText){
         var fireBaseObj = new bubbleObj(inputStudent, inputText, keyArray, " " /* add moment.js timestamp*/);
         console.log(fireBaseObj);
 
-
-        /******************************************************************/
-        //Send object to firebase here
-
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyAHKU2KgIJFJxFQSgU4Sm_c2KiBPFb8H7A",
-    authDomain: "pain-points-postcard.firebaseapp.com",
-    databaseURL: "https://pain-points-postcard.firebaseio.com",
-    storageBucket: "pain-points-postcard.appspot.com",
-  };
-  firebase.initializeApp(config);
-
-
-  var database = firebase.database(); 
-
-    database.ref().push(fireBaseObj);
-
-    
-database.ref().on('child_added', function(childSnapshot, prevChildKey) {
-    
-    var newBubble = {
-    bubbleName: childSnapshot.val().nbStudent,
-    bubbleText: childSnapshot.val().nbText,
-    bubbleKeyword: childSnapshot.val().nbKeyword,
-    bubbleTime: childSnapshot.val().nbTime
+        //Pushes bject to Firebase
+        database.ref().push(fireBaseObj);
+    })
 }
 
-});
+/******************************   Running Code   *********************************/
 
-
-
-        
-
-
-
-        renderBubble(newBubble, "#existingBubblesDiv")
-
-    });
-}
-
-/***************************************************************/
+//Listener adds new bubbles on screen automatically
+database.ref().on('child_added', function(childSnapshot, prevChildKey){
+    var inputObj = childSnapshot.val();
+    renderBubble(inputObj, "#existingBubblesDiv");
+})
 
 $(".btn").on("click", function(){
     inputText = $("textarea").val();
