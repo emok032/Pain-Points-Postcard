@@ -16,4 +16,8 @@ Sketch:During and after each class session, students will be able to submit succ
 
 APIs: Language processing API, GitHub API.
 
+APP: https://rcbmay2016team.slack.com/apps/new/A0F82E8CA-slash-commands
+
+Slack:https://rcbmay2016team.slack.com/apps/new/A0F82E8CA-slash-commands
+
 
