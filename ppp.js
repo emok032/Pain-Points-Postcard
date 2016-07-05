@@ -9,7 +9,7 @@
   var database = firebase.database(); 
 
 //Global Variables
-// var canVote = true;
+var bubbleCompare = [];
 
 //Bubble object constructor
 function bubbleObj(nbStudent, nbText, nbKeyword, nbTime, nbVotes){
@@ -21,6 +21,9 @@ function bubbleObj(nbStudent, nbText, nbKeyword, nbTime, nbVotes){
 }
 
 function renderPostcard(inputObj1, inputObj2){
+
+    console.log("inputObj1: " + inputObj1);
+    console.log("inputObj2: " + inputObj2);
 
     var postDiv = $("<div>").attr({class: "postDiv"});//New postcard div
 
@@ -39,17 +42,34 @@ function renderPostcard(inputObj1, inputObj2){
     //Body div to hold pain points
     var postBody = $("<div>").attr({class: "row postBody"});
 
-    //Div to hold the first pain point
+    //Div to hold the first pain point\\
     var pp1 = $("<div>").attr({class: "col-xs-6 pp1"});
-    pp1.text(/*bubble text*/)
-    postBody.append(pp1);
+
+    var title = $("<h3>").text("From " + inputObj1.nbStudent + ", with " + inputObj1.nbVotes + ":")
+    var body = $("<p>").text(inputObj1.nbText)
+    var time = $("<h5>").text(inputObj1.nbTime);
+
+    pp1.append(title);
+    pp1.append(body);
+    pp1.append(time);
+    //Div to hold the first pain point\\
 
     //Div to hold the second pain point
+    var pp2 = $("<div>").attr({class: "col-xs-6 pp1"});
+
+    var title = $("<h3>").text("From " + inputObj2.nbStudent + ", with " + inputObj2.nbVotes + ":")
+    var body = $("<p>").text(inputObj2.nbText)
+    var time = $("<h5>").text(inputObj2.nbTime);
+
+    pp2.append(title);
+    pp2.append(body);
+    pp2.append(time);
 
     postDiv.append(titleBar);
     postDiv.append(pp1);
     postDiv.append(pp2);
 
+    $("#currentPostcard").html(postDiv);
 }
 
 function renderBubble(inputObj, insertDiv, keyID){
@@ -175,5 +195,29 @@ database.ref().on("child_changed", function(snapshot){
 
     var div = $("#" + key);
     div.text("Vote [" + votes + " votes]");
+})
+
+//Listener to render the Postcard
+database.ref().on("value", function(snapshot){
+
+    snapshot.forEach(function(childSnapshot){
+        var childObj = childSnapshot.val()
+        var childKey = childSnapshot.key;
+        var childVotes = childObj.nbVotes;
+        console.log()
+
+        for (var i = 0; i < 2; i++){
+            if (!bubbleCompare[i]){
+                bubbleCompare[i] = childObj;
+                break;
+            }
+            else if(childVotes > bubbleCompare[i].nbVotes){
+                bubbleCompare[i] = childObj;
+                break;
+            }
+            else{continue}
+        }
+    })
+    renderPostcard(bubbleCompare[0], bubbleCompare[1]);
 })
 
