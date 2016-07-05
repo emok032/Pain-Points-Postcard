@@ -11,14 +11,6 @@
 //Global Variables
 // var canVote = true;
 
-// $(".container-fluid").on("click", ".voteIcon", function(){
-//     if(canVote){
-//         //increment the appropriate object's voteCount by 1;
-//         canVote = false;
-//     }
-//     else{"message: you've already voted!"}
-// })
-
 //Bubble object constructor
 function bubbleObj(nbStudent, nbText, nbKeyword, nbTime, nbVotes){
     this.nbStudent = nbStudent,
@@ -60,7 +52,7 @@ function renderPostcard(inputObj1, inputObj2){
 
 }
 
-function renderBubble(inputObj, insertDiv){
+function renderBubble(inputObj, insertDiv, keyID){
     //Create a new div for our new bubble, and variables for the student's name and pain point text
     var bubbleDiv = $("<div>").attr({class: "enjoy-CSS"});
     var s = $("<h3>").text(inputObj.nbStudent + ": ")
@@ -87,12 +79,13 @@ function renderBubble(inputObj, insertDiv){
     }
 
     //Append timestamp and voting button
-    var m = $("<h4>").text(inputObj.nbTime);
+    var m = $("<h5>").text(inputObj.nbTime);
     var v = $("<span>").attr({
         class:"glyphicon glyphicon-plus",
-        "aria-hidden": "true",
+        id: keyID,
+        "aria-hidden": "true"
     });
-    v.text("Vote");
+    v.text("Vote [" + inputObj.nbVotes + " votes]");
 
     bubbleDiv.append(m);
     bubbleDiv.append(v);
@@ -144,8 +137,10 @@ function newBubble(inputStudent, inputText){
 
 //Listener adds new bubbles on screen automatically
 database.ref().on('child_added', function(childSnapshot, prevChildKey){
+    var key = childSnapshot.key;
+    // console.log("key: " + key);
     var inputObj = childSnapshot.val();
-    renderBubble(inputObj, "#existingBubblesDiv");
+    renderBubble(inputObj, "#existingBubblesDiv", key);
 })
 
 $(".btn").on("click", function(){
@@ -158,4 +153,27 @@ $(".btn").on("click", function(){
     $(".form-control").val("");//Shouldn't this clear the form??
 })
 
+//Allows users to upvote individual bubbles 
+$(".container-fluid").on("click", ".glyphicon", function(){
+    var key = $(this).attr("id");
+    database.ref(key).once("value", function(snapshot){
+        var votes = snapshot.val().nbVotes;
+        // console.log(key + " votes: " + votes);
+        votes++;
+        database.ref(key).update({nbVotes: votes});
+    })
+})
+
+//Listener to update on-screen vote counts
+database.ref().on("child_changed", function(snapshot){
+    // console.log("lSnapshot: " + snapshot)
+    var key = snapshot.key;
+    // console.log("lKey: " + key);
+
+    var votes = snapshot.val().nbVotes;
+    // console.log("lVotes: " + votes);
+
+    var div = $("#" + key);
+    div.text("Vote [" + votes + " votes]");
+})
 
