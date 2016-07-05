@@ -18,6 +18,14 @@ function bubbleObj(nbStudent, nbText, nbKeyword, nbTime){
     this.nbTime = nbTime
 }
 
+function renderPostcard(inputObj1, inputObj2){
+    var postDiv = $("<div>").attr({class: "postDiv"});
+    var titleBar
+    var postTitle = $("<div>").attr({class: "postTitle"});
+    postTitle.text("Paint Points Poscard");
+
+}
+
 function renderBubble(inputObj, insertDiv){
     //Create a new div for our new bubble, and variables for the student's name and pain point text
     var bubbleDiv = $("<div>").attr({class: "enjoy-CSS"});
