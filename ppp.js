@@ -20,7 +20,7 @@
 // })
 
 //Bubble object constructor
-function bubbleObj(nbStudent, nbText, nbKeyword, nbTime nbVotes){
+function bubbleObj(nbStudent, nbText, nbKeyword, nbTime, nbVotes){
     this.nbStudent = nbStudent,
     this.nbText = nbText,
     this.nbKeyword = nbKeyword,
@@ -28,37 +28,37 @@ function bubbleObj(nbStudent, nbText, nbKeyword, nbTime nbVotes){
     this.nbVotes = nbVotes
 }
 
-// function renderPostcard(inputObj1, inputObj2){
+function renderPostcard(inputObj1, inputObj2){
 
-//     var postDiv = $("<div>").attr({class: "postDiv"});//New postcard div
+    var postDiv = $("<div>").attr({class: "postDiv"});//New postcard div
 
-//     var titleBar = $("<div>").attr({class: "row"});//New titlebar div
+    var titleBar = $("<div>").attr({class: "row"});//New titlebar div
 
-//     //Title to append
-//     var postTitle = $("<div>").attr({class: "col-xs-9 postTitle"});
-//     postTitle.text("Paint Points Postcard");
-//     titleBar.append(postTitle);
+    //Title to append
+    var postTitle = $("<div>").attr({class: "col-xs-9 postTitle"});
+    postTitle.text("Paint Points Postcard");
+    titleBar.append(postTitle);
 
-//     //Timestamp to append
-//     var postDate = $("<div>").attr({class: "col-xs-3 postDate"});
-//     postDate.text(/*dateObj*/)
-//     titleBar.append(postDate);
+    //Timestamp to append
+    var postDate = $("<div>").attr({class: "col-xs-3 postDate"});
+    postDate.text(/*dateObj*/)
+    titleBar.append(postDate);
 
-//     //Body div to hold pain points
-//     var postBody = $("<div>").attr({class: "row postBody"});
+    //Body div to hold pain points
+    var postBody = $("<div>").attr({class: "row postBody"});
 
-//     //Div to hold the first pain point
-//     var pp1 = $("<div>").attr({class: "col-xs-6 pp1"});
-//     pp1.text(/*bubble text*/)
-//     postBody.append(pp1);
+    //Div to hold the first pain point
+    var pp1 = $("<div>").attr({class: "col-xs-6 pp1"});
+    pp1.text(/*bubble text*/)
+    postBody.append(pp1);
 
-//     //Div to hold the second pain point
+    //Div to hold the second pain point
 
-//     postDiv.append(titleBar);
-//     postDiv.append(pp1);
-//     postDiv.append(pp2);
+    postDiv.append(titleBar);
+    postDiv.append(pp1);
+    postDiv.append(pp2);
 
-// }
+}
 
 function renderBubble(inputObj, insertDiv){
     //Create a new div for our new bubble, and variables for the student's name and pain point text
@@ -88,11 +88,11 @@ function renderBubble(inputObj, insertDiv){
 
     //Append timestamp and voting button
     var m = $("<h4>").text(inputObj.nbTime);
-    var v = ("<span>").attr({
-    class:"glyphicon glyphicon-search",
-    "aria-hidden": "true",
-    })
-    v.text("Vote for this Pain Point");
+    var v = $("<span>").attr({
+        class:"glyphicon glyphicon-plus",
+        "aria-hidden": "true",
+    });
+    v.text("Vote");
 
     bubbleDiv.append(m);
     bubbleDiv.append(v);
@@ -128,7 +128,6 @@ function newBubble(inputStudent, inputText){
             }
         }
         
-
         //If the student doesn't provide a name, use "Anonumous"
         if(!inputStudent){inputStudent = "Anonymous"}
 
