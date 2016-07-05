@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+ <head>
+ 	<!-- Meta tag for bootstrap scaling --><meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- jQuery --><script src="https://code.jquery.com/jquery-2.2.3.js" integrity="
+	sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
+	<!-- Bootstrap JS --> <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<!-- Moment.js --><script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+	<!-- Reset CSS --><link rel="stylesheet" type="text/css" href="reset.css">
+	<!-- Bootstrap CSS --><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<!-- My CSS --><link rel="stylesheet" type="text/css" href="style.css">
+	<title>Pain Points Postcard</title>
+</head>
+
+<body>
+	<!-- Main container -->
+	<div class="container-fluid">
+
+		<!-- Title -->
+		<div class="row" id="titleDiv">
+			<div class="col-md-2"></div> <!-- Spacer column -->
+
+			<div class="col-md-8 col-xs 10">
+				<div class="page-header text-center" id="mainTitle">
+					<h1><small>Welcome to</small></h1>
+		  			<h1>Pain Points Postcard</h1>
+				</div>
+			</div>
+			<div class="col-md-2 col-xs-2">
+				<a href="pool.html">View the Postcards -></a>
+			</div>
+
+		</div>
+
+		<!-- Div for existing bubbles -->
+		<div id="bubblesDiv">
+			<!-- Jumbotron for bubble voting section -->
+			<div class="jumbotron" id="bubbleJumbo">
+				<h1>Pain-points</h1>
+				<!-- We should make this <p> dynamic - at the start of each class, when there are no bubbles submitted, the first user should see an appropriate message -->
+				<p>Here are the pain-point "bubbles" that your classmates have already submitted.  To vote, just click thumbs-up on the bubble that best captures your pain-point.  If you don't see your pain-point here, just keep scrolling to add a new one.</p>
+			</div>
+
+			<div id="existingBubblesDiv">
+				
+			</div>
+	
+		</div>
+
+		<div class="jumbotron" id="addBubbleJumbo">
+			<p>Add a pain-point:</p>
+			<div class="form-group">
+				<textarea class="form-control" rows="4"></textarea>
+				<br>
+				<label class="sr-only" for="user"></label>
+    			<input type="text" class="form-control" id="userName" placeholder="Your Name (Optional)">
+				<input class="btn btn-default" type="submit" value="Submit">
+			</div>
+			
+		</div>
+
+
+
+
+
+
+
+	</div>
+	<!-- /Main container -->
+	<!-- Firebase --><script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+	<!-- My JS --><script type="text/javascript" src="ppp.js"></script>
+
+
+</body>
+</html>
