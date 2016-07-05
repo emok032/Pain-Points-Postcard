@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Meta tag for bootstrap scaling --><meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- jQuery --><script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
+<!-- Bootstrap CSS --><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<title></title>
+</head>
+<body>
+	<div class="container-fluid">
+		<br>
+		<br>
+		<br>
+
+		<div class="row">
+			<div class="col-xs-4"></div>
+
+			<div class="col-xs-8">
+				<form class="form-inline">
+	  				<div class="form-group text-center">
+			    		<label class="sr-only" for="URL"></label>
+			    		<input type="text" class="form-control" id="urlInput" placeholder="URL">
+	  				</div>
+					<button type="button" class="btn btn-primary">Submit</button>
+					
+					<br>
+					<textarea class="form-control" rows="3" placeholder="Input text for analysis" id="textArea"></textarea>
+					<button type="button" class="btn btn-success">Submit</button>
+
+				</form>
+
+				<h3>Keywords:</h3>
+				<div id="outputDiv"></div>
+
+			</div>
+			<div class="col-xs-4"></div>
+
+		</div>
+		
+	</div>
+
+	<script type="text/javascript">
+		/*Notes
+			Send each bubble's text in object form - maybe a standard callback function?
+			Should the selected bubbles be marked for inclusion in the postcard, or should we create a new postcard object?
+			Send each bubble's text for analysis, not the entire url's text.
+
+		*/
+				
+		/* Holding tank
+					{
+			  "credentials": {
+			    "url": "https://gateway-a.watsonplatform.net/calls",
+			    "note": "It may take up to 5 minutes for this key to become active",
+			    "apikey": "4947c53fd9c0d11744fe266fc5b7f3273e5e33ab"
+			  }
+			}
+
+			curl -X POST \
+-d "apikey=$4947c53fd9c0d11744fe266fc5b7f3273e5e33ab" \
+-d "outputMode=json" \
+--data-urlencode text@watson_twitter.txt \
+-d "url=http://mobile.twitter.com/ibmwatson" \
+"https://gateway-a.watsonplatform.net/calls/text/TextGetRankedKeywords"
+
+		curl "https://gateway-a.watsonplatform.net/calls/url/URLGetAuthors?apikey=API_KEY&url=www.ibm.com"
+
+
+		curl -X POST \
+			-d "apikey=4947c53fd9c0d11744fe266fc5b7f3273e5e33ab" \
+			-d "outputMode=json" \
+			-d "url=http://www.twitter.com/ibmwatson" \
+			"https://gateway-a.watsonplatform.net/calls/url/URLGetRankedKeywords"
+
+		*/
+		var inputURL;
+		var inputText;
+
+		function callback(response){
+				console.log(response);
+				var reply = response.keywords;
+				$("#outputDiv").empty();
+
+				for(var i = 0; i < 3; i++){
+					var newKey = "keyword: " + reply[i].text;
+					var newRel = "relevance: " + reply[i].relevance;
+
+					var addDiv = $("<h4>").text(i + ": {");
+					addDiv.append($("<br>"));
+					addDiv.append($("<p>").text(newKey));
+					addDiv.append($("<p>").text(newRel));
+					addDiv.append($("<p>").text("}"));
+
+					$("#outputDiv").append(addDiv);
+					$("#outputDiv").append("<br>");
+				}
+			}
+
+
+		$(".btn-primary").on("click", function(){
+			inputURL = $("#urlInput").val();
+
+			var queryURL = "https://gateway-a.watsonplatform.net/calls/url/URLGetRankedKeywords"
+
+			$.ajax({
+				url: queryURL,
+				method: 'POST', // built-in
+				data: {
+					apikey: "4947c53fd9c0d11744fe266fc5b7f3273e5e33ab",
+					outputMode: "json",
+					url: inputURL
+				}
+			}).done(callback);
+
+			$("form-control").val("URL");//Shouldn't this clear the form??
+		})
+
+		$(".btn-success").on("click", function(){
+			inputText = $("#textArea").val();
+			// inputText = encodeURI(inputText); 
+			console.log(inputText);
+
+			var queryURL = "https://gateway-a.watsonplatform.net/calls/text/TextGetRankedKeywords"
+
+			$.ajax({
+				url: queryURL,
+				method: 'POST',
+				data: {
+					apikey: "4947c53fd9c0d11744fe266fc5b7f3273e5e33ab",
+					outputMode: "json",
+					text: inputText
+				}
+			}).done(callback);
+
+			$(".form-control").val("URL");//Shouldn't this clear the form??
+		})
+
+	</script>
+
+</body>
+</html>

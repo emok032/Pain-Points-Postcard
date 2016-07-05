@@ -7,7 +7,9 @@
 	<!-- Bootstrap JS --> <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 	<!-- Reset CSS --><link rel="stylesheet" type="text/css" href="reset.css">
 	<!-- Bootstrap CSS --><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<!-- Google Fonts CSS --> <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
 	<!-- My CSS --><link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
 	<title>Pain Points Postcard</title>
 </head>
 
@@ -17,30 +19,36 @@
 
 		<!-- Title -->
 		<div class="row" id="titleDiv">
+
+			<div style="position:relative;">
+				
+			</div></small>
 			<div class="col-md-2"></div> <!-- Spacer column -->
+			<!-- <img src="images/certifiedStamp.png" id="certifiedStamp"> -->
+			
 
 			<div class="col-md-8 col-xs 10">
 				<div class="page-header text-center" id="mainTitle">
-					<h1><small>Welcome to</small></h1>
+					<h2><br>Welcome to</h2>
 		  			<h1>Pain Points Postcard</h1>
+		  			<a href="pool.html" id="postcardView">View Postcards</a>
 				</div>
 			</div>
-			<div class="col-md-2 col-xs-2">
-				<a href="pool.html">View the Postcards -></a>
-			</div>
-
+			
 		</div>
 
 		<!-- Div for existing bubbles -->
 		<div id="bubblesDiv">
 			<!-- Jumbotron for bubble voting section -->
 			<div class="jumbotron" id="bubbleJumbo">
-				<h1>Pain-points</h1>
+				<h1>Pain-points<img src="images/certifiedStamp.png" id="certifiedStamp" align="right"></h1>
+
 				<!-- We should make this <p> dynamic - at the start of each class, when there are no bubbles submitted, the first user should see an appropriate message -->
 				<p>Here are the pain-point "bubbles" that your classmates have already submitted.  To vote, just click thumbs-up on the bubble that best captures your pain-point.  If you don't see your pain-point here, just keep scrolling to add a new one.</p>
 			</div>
 
 			<div id="existingBubblesDiv">
+
 				
 			</div>
 	
@@ -49,24 +57,20 @@
 		<div class="jumbotron" id="addBubbleJumbo">
 			<p>Add a pain-point:</p>
 			<div class="form-group">
-				<textarea class="form-control" rows="4"></textarea>
+				<textarea class="form-control" rows="4" id="customForm"></textarea>
 				<br>
-				<label class="sr-only" for="user">Password</label>
+				<label class="sr-only" for="user"></label>
     			<input type="text" class="form-control" id="userName" placeholder="Your Name (Optional)">
 				<input class="btn btn-default" type="submit" value="Submit">
 			</div>
 			
 		</div>
 
-
-
-
-
-
-
 	</div>
 	<!-- /Main container -->
-	<!-- My JS --><script type="text/javascript" src="ppp.js"></script>
+	<!-- My JS -->			<script type="text/javascript" src="ppp.js"></script>
+	<!-- Firebase Link -->	<script type="text/javascript" src="fireData.js"></script>
+
 
 </body>
 </html>
